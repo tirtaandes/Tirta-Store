@@ -1,144 +1,1263 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tirta Store - Produk Digital Terpercaya</title>
-    <style>
-        :root {
-            --bg-color: #0f0f12;
-            --card-bg: #1a1a20;
-            --primary: #7c3aed;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            --radius: 16px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tirta Gaming — Produk Digital Terbaik</title>
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; }
+  <!--
+    ============================================================
+    TIRTA GAMING — Landing Page
+    Stack  : HTML Semantic + CSS Murni + JavaScript Vanilla
+    Tema   : Gelap, Aksen Cyan (#00e5ff), Pendukung Abu-abu
+    Font   : 'Syne' (display) + 'DM Sans' (body)
+    ============================================================
+  -->
 
-        /* Navbar */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: var(--card-bg); }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { color: var(--text-main); text-decoration: none; }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
-        /* Hero */
-        .hero { padding: 80px 5%; text-align: center; }
-        .btn-primary { background: var(--primary); color: white; padding: 12px 24px; border: none; border-radius: var(--radius); cursor: pointer; }
+  <!--
+    ============================================================
+    MIDTRANS SNAP.JS — Sandbox
+    Ganti data-client-key dengan CLIENT KEY Sandbox kamu dari:
+    https://dashboard.sandbox.midtrans.com → Settings → Access Keys
+    ============================================================
+  -->
+  <script
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="Mid-client-SWdvfO_OO68jIenr"
+  ></script>
 
-        /* Sections */
-        .section { padding: 60px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; text-align: center; }
+  <style>
+    /* ===========================
+       CSS VARIABLES & RESET
+    =========================== */
+    :root {
+      --cyan:        #00e5ff;
+      --cyan-dim:    #00b8cc;
+      --cyan-glow:   rgba(0, 229, 255, 0.18);
+      --dark-base:   #0a0c10;
+      --dark-card:   #111520;
+      --dark-border: #1e2535;
+      --gray-light:  #8a9ab5;
+      --gray-mid:    #3a4560;
+      --white:       #e8edf5;
+      --radius-sm:   10px;
+      --radius-md:   16px;
+      --radius-lg:   24px;
+      --shadow-card: 0 4px 32px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.04) inset;
+      --shadow-cyan: 0 0 28px rgba(0,229,255,0.25);
+      --transition:  0.25s cubic-bezier(0.4,0,0.2,1);
+    }
 
-        /* Checkout Modal */
-        #checkout-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
-        .modal-content { background: var(--card-bg); padding: 30px; border-radius: var(--radius); width: 90%; max-width: 400px; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #0f0f12; color: white; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Footer */
-        footer { padding: 40px; text-align: center; color: var(--text-muted); }
-    </style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark-base);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* subtle grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Wrapper above texture */
+    body > * { position: relative; z-index: 1; }
+
+    h1, h2, h3 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; width: 100%; height: auto; }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===========================
+       UTILITY
+    =========================== */
+    .cyan   { color: var(--cyan); }
+    .tag {
+      display: inline-block;
+      background: var(--cyan-glow);
+      border: 1px solid rgba(0,229,255,0.35);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      color: var(--gray-light);
+      max-width: 520px;
+      margin: 0 auto 52px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 30px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #060810;
+    }
+    .btn-primary:hover {
+      background: #33ecff;
+      box-shadow: var(--shadow-cyan);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cyan);
+      border: 1.5px solid var(--cyan);
+    }
+    .btn-outline:hover {
+      background: var(--cyan-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: var(--dark-border);
+      color: var(--white);
+    }
+    .btn-ghost:hover { background: var(--gray-mid); }
+
+    /* Cards */
+    .card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+    .card:hover {
+      border-color: rgba(0,229,255,0.3);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card), var(--shadow-cyan);
+    }
+
+    /* ===========================
+       NAVBAR
+    =========================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      background: rgba(10,12,16,0.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 66px;
+    }
+
+    .navbar-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .navbar-logo span { color: var(--cyan); }
+
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .navbar-menu a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-light);
+      transition: color var(--transition);
+    }
+    .navbar-menu a:hover { color: var(--white); }
+
+    .navbar-cta {
+      padding: 9px 22px;
+      font-size: 14px;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--dark-border);
+      background: rgba(10,12,16,0.97);
+    }
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      padding: 16px 24px;
+      font-size: 15px;
+      color: var(--gray-light);
+      border-bottom: 1px solid var(--dark-border);
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--cyan); }
+
+    /* ===========================
+       HERO
+    =========================== */
+    .hero {
+      min-height: calc(100vh - 66px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding: 80px 0 80px;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--cyan);
+    }
+
+    .hero-headline {
+      font-size: clamp(38px, 5.5vw, 64px);
+      margin-bottom: 22px;
+      letter-spacing: -1px;
+    }
+
+    .hero-desc {
+      color: var(--gray-light);
+      font-size: 16px;
+      max-width: 440px;
+      margin-bottom: 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+    }
+    .hero-img-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(ellipse at center, var(--cyan-glow) 0%, transparent 70%);
+      border-radius: var(--radius-lg);
+      z-index: 0;
+    }
+    .hero-img-wrap img {
+      position: relative;
+      z-index: 1;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--dark-border);
+      box-shadow: var(--shadow-card), var(--shadow-cyan);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+
+    /* Floating badge */
+    .hero-badge {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      z-index: 2;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 180px;
+    }
+    .hero-badge-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--cyan-glow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .hero-badge-text { font-size: 13px; }
+    .hero-badge-text strong { display: block; color: var(--cyan); font-size: 18px; font-family:'Syne',sans-serif; }
+
+    /* ===========================
+       KEUNGGULAN
+    =========================== */
+    .keunggulan { padding: 100px 0; }
+
+    .section-header { text-align: center; margin-bottom: 56px; }
+
+    .keunggulan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .keunggulan-card {
+      padding: 32px 28px;
+    }
+
+    .keunggulan-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--cyan-glow);
+      border: 1px solid rgba(0,229,255,0.25);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .keunggulan-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .keunggulan-card p {
+      font-size: 14px;
+      color: var(--gray-light);
+      line-height: 1.65;
+    }
+
+    /* ===========================
+       PRODUK
+    =========================== */
+    .produk { padding: 80px 0 100px; }
+
+    .produk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .produk-card {
+      overflow: hidden;
+    }
+
+    .produk-img {
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      width: 100%;
+      height: auto;
+    }
+
+    .produk-body {
+      padding: 22px 24px 26px;
+    }
+
+    .produk-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 8px;
+    }
+
+    .produk-body h3 { font-size: 20px; margin-bottom: 8px; }
+
+    .produk-body p {
+      color: var(--gray-light);
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.65;
+    }
+
+    .produk-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .produk-harga {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      color: var(--cyan);
+    }
+    .produk-harga sub {
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-light);
+      vertical-align: baseline;
+    }
+
+    /* ===========================
+       CHECKOUT MODAL
+    =========================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(6,8,16,0.88);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 36px;
+      transform: translateY(24px) scale(0.97);
+      transition: transform var(--transition);
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .modal-header h2 { font-size: 22px; }
+    .modal-header p { color: var(--gray-light); font-size: 13px; margin-top: 4px; }
+
+    .modal-close {
+      background: var(--dark-border);
+      border: none;
+      color: var(--gray-light);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--gray-mid); color: var(--white); }
+
+    /* Form */
+    .form-group { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-light);
+      margin-bottom: 7px;
+      letter-spacing: .03em;
+    }
+
+    input[type="email"],
+    input[type="tel"],
+    input[type="text"] {
+      width: 100%;
+      background: var(--dark-base);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius-sm);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    input:focus { border-color: var(--cyan); }
+    input[readonly] { opacity: 0.55; cursor: not-allowed; }
+
+    .order-info {
+      background: rgba(0,229,255,0.07);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .order-info-label { font-size: 13px; color: var(--gray-light); }
+    .order-info-product { font-weight: 600; font-size: 15px; }
+    .order-info-price { font-family:'Syne',sans-serif; color: var(--cyan); font-size: 20px; }
+
+    .btn-pay {
+      width: 100%;
+      justify-content: center;
+      padding: 15px;
+      font-size: 16px;
+      margin-top: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(6,8,16,0.3);
+      border-top-color: #060810;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-pay.loading .spinner { display: block; }
+    .btn-pay.loading .btn-pay-text { opacity: 0.7; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===========================
+       FAQ
+    =========================== */
+    .faq { padding: 80px 0 100px; }
+
+    .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+
+    .faq-item {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius-md);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: left;
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    .faq-question:hover { border-color: rgba(0,229,255,0.3); }
+    .faq-question.open { border-color: rgba(0,229,255,0.35); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+    .faq-icon {
+      width: 26px;
+      height: 26px;
+      background: var(--cyan-glow);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: transform var(--transition);
+    }
+    .faq-question.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      background: rgba(17,21,32,0.8);
+      border: 1px solid rgba(0,229,255,0.2);
+      border-top: none;
+      border-bottom-left-radius: var(--radius-md);
+      border-bottom-right-radius: var(--radius-md);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), padding 0.35s;
+    }
+    .faq-answer.open { max-height: 300px; padding: 18px 24px 22px; }
+    .faq-answer p { font-size: 14px; color: var(--gray-light); line-height: 1.7; }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer {
+      background: var(--dark-card);
+      border-top: 1px solid var(--dark-border);
+      padding: 40px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .footer-logo span { color: var(--cyan); }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--gray-light);
+      text-align: right;
+    }
+    .footer-copy a { color: var(--cyan); }
+
+    /* ===========================
+       TOAST
+    =========================== */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 2000;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      font-size: 14px;
+      box-shadow: var(--shadow-card);
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      max-width: 320px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: rgba(0,229,255,0.4); color: var(--cyan); }
+    .toast.error   { border-color: rgba(255,80,80,0.4); color: #ff8080; }
+
+    /* ===========================
+       RESPONSIVE
+    =========================== */
+    @media (max-width: 860px) {
+      .navbar-menu, .navbar-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 60px 0;
+        min-height: unset;
+      }
+      .hero-img-wrap { order: -1; }
+      .hero-badge { left: 0; }
+
+      .produk-grid { grid-template-columns: 1fr; }
+
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-copy { text-align: left; }
+    }
+
+    @media (max-width: 540px) {
+      .modal { padding: 28px 20px; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo"><h2>Tirta Store</h2></div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Produk</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Kontak</a></li>
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar">
+    <div class="container">
+      <nav class="navbar-inner">
+        <a href="#" class="navbar-logo">Tirta<span>Gaming</span></a>
+
+        <ul class="navbar-menu">
+          <li><a href="#">Home</a></li>
+          <li><a href="#produk">Produk</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#footer">Kontak</a></li>
         </ul>
-    </nav>
 
-    <section class="hero">
-        <h1>Solusi Produk Digital Terbaik</h1>
-        <p>Akses cepat, mudah, dan terpercaya.</p>
-        <div style="margin-top: 20px;">
-            <button class="btn-primary">Lihat Produk</button>
-            <button class="btn-primary" style="background: transparent; border: 1px solid var(--primary);">Beli Sekarang</button>
-        </div>
-        <img src="https://placehold.net/default.png" alt="Mockup" style="max-width: 300px; margin-top: 40px;">
-    </section>
+        <a href="#produk" class="btn btn-primary navbar-cta">Lihat Produk</a>
 
-    <section class="section">
-        <h2>Mengapa Memilih Kami?</h2>
-        <div class="grid">
-            <div class="card"><h3>Produk Berkualitas</h3></div>
-            <div class="card"><h3>Akses Selamanya</h3></div>
-            <div class="card"><h3>Ramah Pemula</h3></div>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2>Produk Kami</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://placehold.net/default.png" style="width:100%; border-radius:var(--radius);">
-                <h3>Kopi Digital</h3>
-                <p>Panduan seduh kopi terbaik.</p>
-                <p><strong>Rp 50.000</strong></p>
-                <button class="btn-primary" onclick="openCheckout('Kopi Digital', 50000)">Beli</button>
-            </div>
-            <!-- Repeat for others -->
-        </div>
-    </section>
-
-    <div id="checkout-modal">
-        <div class="modal-content">
-            <h3>Checkout</h3>
-            <input type="email" id="email" placeholder="Email Anda">
-            <input type="text" id="phone" placeholder="Nomor HP">
-            <button class="btn-primary" id="pay-button" onclick="processPayment()">Bayar Sekarang</button>
-        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
     </div>
 
-    <footer>&copy; 2026 DigitalStore. Hak Cipta Dilindungi.</footer>
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="#" onclick="closeMobileMenu()">Home</a>
+      <a href="#produk" onclick="closeMobileMenu()">Produk</a>
+      <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+      <a href="#footer" onclick="closeMobileMenu()">Kontak</a>
+    </nav>
+  </header>
 
-    <!-- Midtrans Snap Script -->
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-SWdvfO_OO68jIenr"></script>
-    
-    <script>
-        let currentItem = {};
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="home">
+    <div class="container" style="display:contents">
+      <div class="hero-content container" style="padding-right:0">
+        <p class="hero-eyebrow">Platform Digital Terpercaya</p>
+        <h1 class="hero-headline">
+          Produk Digital<br /><span class="cyan">Premium</span> untuk<br />Kehidupan Lebih Baik
+        </h1>
+        <p class="hero-desc">
+          Temukan koleksi produk digital pilihan — mulai dari konten makanan &amp; minuman premium hingga camilan pilihan. Sekali beli, nikmati selamanya.
+        </p>
+        <div class="hero-actions">
+          <a href="#produk" class="btn btn-primary">&#9654; Lihat Produk</a>
+          <a href="#produk" class="btn btn-outline">Beli Sekarang</a>
+        </div>
+      </div>
 
-        function openCheckout(name, price) {
-            currentItem = { name, price };
-            document.getElementById('checkout-modal').style.display = 'flex';
+      <div class="hero-img-wrap container" style="padding-left:0; position:relative;">
+        <img src="https://placehold.net/default.png" alt="Produk Digital Tirta Gaming" />
+        <div class="hero-badge">
+          <div class="hero-badge-icon">&#128970;</div>
+          <div class="hero-badge-text">
+            <strong>500+</strong>
+            Pelanggan Puas
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KEUNGGULAN ==================== -->
+  <section class="keunggulan" id="keunggulan">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Keunggulan Kami</span>
+        <h2 class="section-title">Mengapa Memilih <span class="cyan">Tirta Gaming?</span></h2>
+        <p class="section-sub">Kami hadir dengan standar kualitas tinggi dan pengalaman belanja yang menyenangkan.</p>
+      </div>
+
+      <div class="keunggulan-grid">
+        <article class="card keunggulan-card">
+          <div class="keunggulan-icon">&#127941;</div>
+          <h3>Produk Digital Berkualitas</h3>
+          <p>Setiap produk dikurasi ketat untuk memastikan kualitas terbaik yang memenuhi standar premium.</p>
+        </article>
+
+        <article class="card keunggulan-card">
+          <div class="keunggulan-icon">&#9889;</div>
+          <h3>Sekali Beli, Akses Selamanya</h3>
+          <p>Tidak ada biaya berulang. Beli satu kali dan nikmati akses penuh seumur hidup tanpa batasan.</p>
+        </article>
+
+        <article class="card keunggulan-card">
+          <div class="keunggulan-icon">&#128640;</div>
+          <h3>Cocok untuk Pemula</h3>
+          <p>Dirancang ramah pengguna sehingga siapapun — termasuk pemula — bisa langsung memanfaatkannya.</p>
+        </article>
+
+        <article class="card keunggulan-card">
+          <div class="keunggulan-icon">&#127807;</div>
+          <h3>Hemat &amp; Ramah Lingkungan</h3>
+          <p>Produk digital berarti tanpa kertas, tanpa pengiriman fisik. Hemat biaya sekaligus jaga bumi.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRODUK ==================== -->
+  <section class="produk" id="produk">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Koleksi Terbaru</span>
+        <h2 class="section-title">Produk <span class="cyan">Unggulan</span></h2>
+        <p class="section-sub">Pilihan produk digital terbaik kami, siap kamu miliki hari ini.</p>
+      </div>
+
+      <div class="produk-grid">
+
+        <!-- Produk 1: Kopi -->
+        <article class="card produk-card">
+          <img class="produk-img" src="https://placehold.net/default.png" alt="Panduan Kopi Premium" />
+          <div class="produk-body">
+            <p class="produk-badge">☕ Minuman</p>
+            <h3>E-Book Panduan Kopi Premium</h3>
+            <p>Pelajari seni menyeduh kopi berkualitas barista dari rumah. Lengkap dengan resep dan teknik eksklusif.</p>
+            <div class="produk-footer">
+              <p class="produk-harga"><sub>Rp</sub>49.000</p>
+              <button class="btn btn-primary" onclick="openCheckout('E-Book Panduan Kopi Premium', 49000)">
+                &#128722; Beli
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Produk 2: Kopi (Kelas Video) -->
+        <article class="card produk-card">
+          <img class="produk-img" src="https://placehold.net/default.png" alt="Kelas Video Kopi" />
+          <div class="produk-body">
+            <p class="produk-badge">&#127916; Video Kelas</p>
+            <h3>Kelas Video Kopi Artisan</h3>
+            <p>Lebih dari 2 jam video HD tentang kopi specialty, latte art, dan teknik espresso profesional.</p>
+            <div class="produk-footer">
+              <p class="produk-harga"><sub>Rp</sub>89.000</p>
+              <button class="btn btn-primary" onclick="openCheckout('Kelas Video Kopi Artisan', 89000)">
+                &#128722; Beli
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Produk 3: Keripik -->
+        <article class="card produk-card">
+          <img class="produk-img" src="https://placehold.net/default.png" alt="Resep Keripik Homemade" />
+          <div class="produk-body">
+            <p class="produk-badge">&#127839; Camilan</p>
+            <h3>Resep Keripik Homemade Pro</h3>
+            <p>30+ resep keripik rumahan yang lezat dan menguntungkan — cocok untuk konsumsi pribadi maupun usaha.</p>
+            <div class="produk-footer">
+              <p class="produk-harga"><sub>Rp</sub>39.000</p>
+              <button class="btn btn-primary" onclick="openCheckout('Resep Keripik Homemade Pro', 39000)">
+                &#128722; Beli
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CHECKOUT MODAL ==================== -->
+  <div class="modal-overlay" id="checkoutOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle">Checkout</h2>
+          <p>Lengkapi data untuk melanjutkan pembayaran</p>
+        </div>
+        <button class="modal-close" onclick="closeCheckout()" aria-label="Tutup modal">&#10005;</button>
+      </div>
+
+      <!-- Ringkasan Pesanan -->
+      <div class="order-info">
+        <div>
+          <p class="order-info-label">Produk</p>
+          <p class="order-info-product" id="summaryProduct">—</p>
+        </div>
+        <p class="order-info-price" id="summaryPrice">—</p>
+      </div>
+
+      <!-- Form Checkout -->
+      <form id="checkoutForm" onsubmit="handlePayment(event)">
+        <!--
+          ORDER ID — Dibuat otomatis: "DE-" + timestamp (milidetik)
+          Ini dikirim sebagai order_id ke Midtrans untuk identifikasi unik transaksi.
+        -->
+        <input type="hidden" id="fieldOrderId" />
+
+        <!--
+          GROSS AMOUNT — Diisi otomatis saat produk dipilih.
+          Nilai ini dikirim sebagai gross_amount ke Midtrans (dalam satuan Rupiah, tanpa desimal).
+        -->
+        <input type="hidden" id="fieldGrossAmount" />
+
+        <!--
+          PRODUCT NAME — Diisi otomatis untuk item_details.
+        -->
+        <input type="hidden" id="fieldProductName" />
+
+        <div class="form-group">
+          <label for="fieldEmail">Alamat Email</label>
+          <input type="email" id="fieldEmail" placeholder="kamu@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fieldPhone">Nomor HP (WhatsApp)</label>
+          <input type="tel" id="fieldPhone" placeholder="08xxxxxxxxxx" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-pay" id="btnPay">
+          <div class="spinner"></div>
+          <span class="btn-pay-text">&#128274; Bayar Sekarang</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">FAQ</span>
+        <h2 class="section-title">Pertanyaan yang <span class="cyan">Sering Diajukan</span></h2>
+        <p class="section-sub">Ada yang masih bingung? Kami siap menjawab.</p>
+      </div>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Bagaimana cara mendapatkan produk setelah membeli?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Setelah pembayaran berhasil dikonfirmasi, link unduhan atau akses produk akan langsung dikirimkan ke alamat email yang kamu daftarkan. Proses ini bersifat otomatis dan hanya membutuhkan beberapa menit.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Apakah produk digital bisa diakses selamanya?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Ya! Semua produk yang kamu beli di Tirta Gaming bersifat lifetime access. Kamu hanya perlu membeli satu kali, dan bisa mengakses konten tersebut kapanpun kamu mau tanpa biaya tambahan.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Metode pembayaran apa saja yang tersedia?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Kami menggunakan Midtrans sebagai payment gateway, sehingga kamu dapat membayar melalui berbagai metode: transfer bank (BCA, BNI, BRI, Mandiri), QRIS, dompet digital (GoPay, OVO, Dana, ShopeePay), hingga kartu kredit/debit.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer id="footer">
+    <div class="container footer-inner">
+      <p class="footer-logo">Tirta<span>Gaming</span></p>
+      <p class="footer-copy">
+        &copy; 2025 TirtaGaming. Semua hak dilindungi.<br />
+        <small>Platform penjualan produk digital &mdash; bukan afiliasi platform lain mana pun.</small>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST ==================== -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    /*
+    ================================================================
+      KONFIGURASI MIDTRANS
+      ----------------------------------------------------------------
+      Isi nilai berikut dengan credentials Sandbox kamu dari:
+      https://dashboard.sandbox.midtrans.com
+      Settings → Access Keys
+
+      CLIENT KEY  → diisi di atribut data-client-key pada tag <script> Snap.js di bagian <head>
+      SERVER KEY  → digunakan di sini untuk Authorization header (Basic Auth).
+                    PERHATIAN: Server Key bersifat rahasia.
+                    Pada aplikasi produksi, JANGAN ekspos Server Key di frontend.
+                    Gunakan backend (Node.js / PHP / dll.) sebagai perantara.
+                    Untuk keperluan demo / sandbox lokal, kamu bisa mengisinya di sini.
+    ================================================================
+    */
+    const MIDTRANS_SERVER_KEY = 'Mid-server-Rh7c-lDUVAeUYKE1r4FHVMDG'; // Ganti dengan Server Key Sandbox-mu
+
+    /*
+    ================================================================
+      ENDPOINT MIDTRANS (Sandbox) via CORS Proxy
+      ----------------------------------------------------------------
+      Kita gunakan corsproxy.io agar browser bisa memanggil API
+      Midtrans langsung dari frontend (hanya untuk sandbox/demo).
+      Pada produksi, request harus diproses dari backend server.
+    ================================================================
+    */
+    const SNAP_ENDPOINT = 'https://corsproxy.io/https://app.sandbox.midtrans.com/snap/v1/transactions';
+
+    /* ---- State ---- */
+    let currentProduct = { name: '', price: 0 };
+
+    /* ---- Hamburguer Menu ---- */
+    const hamburger    = document.getElementById('hamburger');
+    const mobileMenu   = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+
+    /* ---- Checkout Modal ---- */
+    function openCheckout(productName, price) {
+      currentProduct = { name: productName, price };
+
+      // Tampilkan ringkasan
+      document.getElementById('summaryProduct').textContent = productName;
+      document.getElementById('summaryPrice').textContent   = 'Rp ' + price.toLocaleString('id-ID');
+
+      // Isi hidden fields
+      document.getElementById('fieldProductName').value  = productName;
+      document.getElementById('fieldGrossAmount').value  = price;
+
+      // Generate Order ID: DE- + timestamp
+      const orderId = 'DE-' + Date.now();
+      document.getElementById('fieldOrderId').value = orderId;
+
+      // Reset form inputs
+      document.getElementById('fieldEmail').value = '';
+      document.getElementById('fieldPhone').value = '';
+
+      // Buka modal
+      document.getElementById('checkoutOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Tutup modal saat klik area luar
+    document.getElementById('checkoutOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeCheckout();
+    });
+
+    /* ---- Handle Payment ---- */
+    async function handlePayment(e) {
+      e.preventDefault();
+
+      const orderId     = document.getElementById('fieldOrderId').value;
+      const grossAmount = parseInt(document.getElementById('fieldGrossAmount').value, 10);
+      const productName = document.getElementById('fieldProductName').value;
+      const email       = document.getElementById('fieldEmail').value.trim();
+      const phone       = document.getElementById('fieldPhone').value.trim();
+
+      const btn = document.getElementById('btnPay');
+
+      // Tampilkan loading state
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      /*
+      ================================================================
+        REQUEST KE MIDTRANS SNAP API
+        ----------------------------------------------------------------
+        Method  : POST
+        Endpoint: SNAP_ENDPOINT (via CORS proxy)
+        Auth    : Basic Base64(SERVER_KEY + ":")
+        Payload :
+          - transaction_details : order_id, gross_amount
+          - item_details        : id, price, quantity, name
+          - customer_details    : email, phone
+      ================================================================
+      */
+
+      // Encode Server Key untuk Basic Auth
+      const authHeader = 'Basic ' + btoa(MIDTRANS_SERVER_KEY + ':');
+
+      const payload = {
+        transaction_details: {
+          order_id:     orderId,
+          gross_amount: grossAmount
+        },
+        item_details: [
+          {
+            id:       orderId,
+            price:    grossAmount,
+            quantity: 1,
+            name:     productName
+          }
+        ],
+        customer_details: {
+          email: email,
+          phone: phone
+        }
+      };
+
+      try {
+        const response = await fetch(SNAP_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': authHeader
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          // Midtrans mengembalikan error
+          const errMsg = (data.error_messages && data.error_messages[0]) || 'Gagal mendapatkan token pembayaran.';
+          throw new Error(errMsg);
         }
 
-        async function processPayment() {
-            const btn = document.getElementById('pay-button');
-            btn.innerText = 'Loading...';
-            
-            const order_id = 'DE-' + new Date().getTime();
-            const payload = {
-                transaction_details: { order_id: order_id, gross_amount: currentItem.price },
-                customer_details: { email: document.getElementById('email').value, phone: document.getElementById('phone').value }
-            };
+        const token = data.token;
 
-            try {
-                // Konfigurasi: Masukkan Server Key di backend untuk keamanan nyata. 
-                // Untuk demo frontend-only ini, harap berhati-hati dengan Client Key.
-                const response = await fetch('https://corsproxy.io/https://app.sandbox.midtrans.com/snap/v1/transactions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Basic ' + btoa('Mid-server-Rh7c-lDUVAeUYKE1r4FHVMDG:') // Masukkan Server Key disini
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                const data = await response.json();
-                if (data.token) {
-                    window.snap.pay(data.token);
-                }
-            } catch (err) {
-                console.error(err);
-                btn.innerText = 'Gagal';
-            }
+        if (!token) {
+          throw new Error('Token tidak ditemukan dalam respons Midtrans.');
         }
-    </script>
+
+        // Tutup modal sebelum membuka Snap
+        closeCheckout();
+
+        /*
+        ================================================================
+          BUKA MIDTRANS SNAP PAYMENT POPUP
+          ----------------------------------------------------------------
+          window.snap.pay(token) akan membuka popup pembayaran Midtrans.
+          Callback:
+            onSuccess    → pembayaran berhasil
+            onPending    → menunggu konfirmasi (transfer, dll.)
+            onError      → terjadi kesalahan
+            onClose      → user menutup popup tanpa bayar
+        ================================================================
+        */
+        window.snap.pay(token, {
+          onSuccess: function(result) {
+            showToast('✅ Pembayaran berhasil! Terima kasih.', 'success');
+            console.log('[Midtrans] Success:', result);
+          },
+          onPending: function(result) {
+            showToast('⏳ Pembayaran menunggu konfirmasi.', 'success');
+            console.log('[Midtrans] Pending:', result);
+          },
+          onError: function(result) {
+            showToast('❌ Pembayaran gagal. Coba lagi.', 'error');
+            console.error('[Midtrans] Error:', result);
+          },
+          onClose: function() {
+            showToast('Popup ditutup. Pembayaran dibatalkan.', 'error');
+          }
+        });
+
+      } catch (err) {
+        console.error('[Checkout Error]', err);
+        showToast('⚠️ ' + err.message, 'error');
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    /* ---- FAQ Accordion ---- */
+    function toggleFaq(btn) {
+      const answer    = btn.nextElementSibling;
+      const isOpen    = btn.classList.contains('open');
+
+      // Tutup semua
+      document.querySelectorAll('.faq-question.open').forEach(q => {
+        q.classList.remove('open');
+        q.setAttribute('aria-expanded', 'false');
+        q.nextElementSibling.classList.remove('open');
+      });
+
+      // Buka yang diklik (jika belum open)
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        answer.classList.add('open');
+      }
+    }
+
+    /* ---- Toast Notification ---- */
+    function showToast(msg, type = 'success') {
+      const toast  = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className   = 'toast ' + type + ' show';
+      setTimeout(() => { toast.classList.remove('show'); }, 4000);
+    }
+  </script>
+
 </body>
 </html>
